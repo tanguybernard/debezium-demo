@@ -1,0 +1,14 @@
+{
+  "name": "sink-mongo",
+  "config": {
+    "connector.class": "com.mongodb.kafka.connect.MongoSinkConnector",
+    "database": "company-sync",
+    "writemodel.strategy": "com.mongodb.kafka.connect.sink.writemodel.strategy.InsertOneDefaultStrategy",
+    "tasks.max": "1",
+    "topics": "db.sync.company.user",
+    "name": "sink-mongo",
+    "connection.uri": "mongodb://root:root@mongo:27017",
+    "collection": "user",
+    "change.data.capture.handler": "com.mongodb.kafka.connect.sink.cdc.debezium.rdbms.mysql.MysqlHandler"
+  }
+}
