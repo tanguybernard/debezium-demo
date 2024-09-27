@@ -127,3 +127,10 @@ curl http://localhost:8083/connectors/source-mysql/status
 14. Insert new user
 
     INSERT INTO company.user (id, first_name, last_name) VALUES (101, 'Alice', 'Wonderland');
+
+
+
+
+Credits: 
+
+https://sylhare.github.io/2022/11/07/Database-sync-with-debezium.html
