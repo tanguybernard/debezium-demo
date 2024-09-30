@@ -39,6 +39,8 @@ services:
       CONNECT_LOG4J_LOGGERS: 'org.apache.kafka.connect.runtime.rest=WARN,org.reflections=ERROR'
     volumes:
       - ./plugins:/kafka/connect
+      - $PWD/custom/target/custom-transform-1.0-SNAPSHOT.jar:/kafka/connect/debezium-connector-mysql/custom-transform-1.0-SNAPSHOT.jar
+
     depends_on:
       - kafka
       - mysql
@@ -52,6 +54,9 @@ services:
       MYSQL_PASSWORD: password
     ports:
       - 3306:3306
+    volumes:
+      - ./mysql-init:/docker-entrypoint-initdb.d
+
   mongo:
     image: mongo:latest
     environment:
@@ -60,7 +65,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - /data/db
+      - ./mongo-init:/docker-entrypoint-initdb.d
 networks:
   default:
     name: debezium-net

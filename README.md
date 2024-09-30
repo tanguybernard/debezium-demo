@@ -9,9 +9,11 @@ https://www.confluent.io/hub/mongodb/kafka-connect-mongodb
 
 debezium-demo > plugins >mongodb-kafka-connect-mongodb-1.13.0>(assets, lib, manifest.json)
 
+And Mysql Connector
+
+
 
 1. Check
-
 
 
 curl http://localhost:8083/connector-plugins
@@ -20,60 +22,19 @@ Response:
 
 > [{"class":"com.mongodb.kafka.connect.MongoSinkConnector","type":"sink","version":"1.13.0"},{"class":"com.mongodb.kafka.connect.MongoSourceConnector","type":"source","version":"1.13.0"},{"class":"io.debezium.connector.mysql.MySqlConnector","type":"source","version":"2.4.2.Final"},{"class":"org.apache.kafka.connect.mirror.MirrorCheckpointConnector","type":"source","version":"3.7.0"},{"class":"org.apache.kafka.connect.mirror.MirrorHeartbeatConnector","type":"source","version":"3.7.0"},{"class":"org.apache.kafka.connect.mirror.MirrorSourceConnector","type":"source","version":"3.7.0"}]
 
-1. Up
+2. Up
 
-    docker-compose up
-
-1. Create terminal to mongo
-
-       mongosh -u root -p
-
-1. Create collection
+        docker-compose up
 
 
-        use company-sync
-        show dbs                        // to show the created databases
-        db.createCollection("user")
-        show collections   
-
-         db.user.find();
-
-4. Create terminal to mysql
-
-      mysql -uroot -p
-
-5. Grant access
-
-        ALTER USER debezium IDENTIFIED WITH mysql_native_password BY 'password';
-        
-        GRANT RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO debezium;
-        GRANT SELECT, INSERT, UPDATE, DELETE ON company.* TO debezium;
-
-6. Create DB
-
-       CREATE DATABASE company;
-    
-       CREATE TABLE company.user (
-       id INT PRIMARY KEY NOT NULL,
-       first_name VARCHAR(50),
-       last_name VARCHAR(50)
-       );
-
-
-7. Insert and update data
-
-
-    INSERT INTO company.user (id, first_name, last_name) VALUES (100, 'John', 'Doe');
-    UPDATE company.user SET last_name = 'Oliver' WHERE id = 100;
-
-8. Curl
+3. Curl
 
 
       curl --location --request POST 'http://localhost:8083/connectors' \
       --header 'Content-Type: application/json' \
       --data @source.json
 
-9. Check connector source status
+4. Check connector source status
 
         curl http://localhost:8083/connectors/{connector name}/status
 
@@ -81,14 +42,13 @@ Ex :
 
 curl http://localhost:8083/connectors/source-mysql/status
 
-10. (Optional) DElete
+
+5. (Optional) Delete
 
         curl -X DELETE http://localhost:8083/connectors/source-mysql
 
 
-
-
-11. Validate
+6. Validate
 
 
       curl -X PUT \
@@ -108,7 +68,7 @@ curl http://localhost:8083/connectors/source-mysql/status
       
 
 
-12. Curl
+7. Curl
 
 
       curl --location --request POST 'http://localhost:8083/connectors' \
@@ -117,7 +77,7 @@ curl http://localhost:8083/connectors/source-mysql/status
 
 
 
-13. Show all connectors 
+8. Show all connectors 
    
       curl http://localhost:8083/connectors
 
@@ -126,9 +86,24 @@ curl http://localhost:8083/connectors/source-mysql/status
 
 14. Insert new user
 
-    INSERT INTO company.user (id, first_name, last_name) VALUES (101, 'Alice', 'Wonderland');
+        mysql -uroot -p
+
+        use company;
+
+        INSERT INTO company.user (id, first_name, last_name) VALUES (101, 'Alice', 'Wonderland');
+
+1. Create terminal to mongo
+
+       mongosh -u root -p
+
+1. Create collection
 
 
+        use company-sync
+        show dbs                        // to show the created databases
+        show collections
+        
+    db.user.find();
 
 
 Credits: 

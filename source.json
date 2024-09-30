@@ -17,6 +17,10 @@
     "schema.history.internal.kafka.topic": "db.sync._schema_history",
     "database.include.list": "company",
     "table.include.list": "company.user",
-    "column.include.list": "company.user.id, company.user.first_name, company.user.last_name"
+    "column.include.list": "company.user.id, company.user.first_name, company.user.last_name",
+
+    "transforms": "uppercaseName",
+    "transforms.uppercaseName.type": "com.example.CustomFirstNameTransformation"
+
   }
 }
