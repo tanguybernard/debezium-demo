@@ -1,4 +1,4 @@
-# Debezium
+# Kafka Connect
 
 
 1. Download Mongo Connector
@@ -13,10 +13,10 @@ And Mysql Connector
 
 
 
-1. Check
+1. List connector plugins installed
 
 
-curl http://localhost:8083/connector-plugins
+    curl http://localhost:8083/connector-plugins
 
 Response:
 
@@ -92,16 +92,15 @@ curl http://localhost:8083/connectors/source-mysql/status
 
         INSERT INTO company.user (id, first_name, last_name) VALUES (101, 'Alice', 'Wonderland');
 
-1. Create terminal to mongo
-
-       mongosh -u root -p
-
 1. Create collection
 
 
-        use company-sync
-        show dbs                        // to show the created databases
-        show collections
+    mongosh -u root -p
+
+    use company-sync
+        
+    show dbs                        // to show the created databases
+    show collections
         
     db.user.find();
 
